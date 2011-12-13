@@ -172,3 +172,65 @@ Cube = function(gl, edgeLength) {
 	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vposition);
 	this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
 }
+
+/*
+ * Class: Sphere
+ */
+
+Sphere = function(gl, radius) {
+	
+	var nrLatitudinalLines = 10; // # Breitengrade
+	var nrLongitudinalLines = 10; // # Längengrade
+	var allVertices = [];
+	
+	for (var latitude = 0; latitude <= nrLatitudinalLines; latitude++) {
+		
+		var angleLatitude = (latitude * Math.PI) / nrLatitudinalLines;
+		var sinAngleLatitude = Math.sin(angleLatitude);
+		var cosAngleLatitude = Math.cos(angleLatitude);
+		
+		for (var longitude = 0; longitude <= nrLongitudinalLines; longitude++) {
+			
+			var angleLongitude = (longitude * 2 * Math.PI) / nrLongitudinalLines;
+			var sinAngleLongitude = Math.sin(angleLongitude);
+			var cosAngleLongitude = Math.cos(angleLongitude);
+		
+			var x = radius * cosAngleLongitude * sinAngleLatitude;
+			var y = radius * cosAngleLatitude;
+			var z = radius * sinAngleLongitude * sinAngleLatitude;
+			
+			allVertices.push([x, y, z]);
+		}
+	}
+	
+	var addressedVertices = [];
+	for (var latitude = 0; latitude < nrLatitudinalLines; latitude++) {
+		for (var longitude = 0; longitude < nrLongitudinalLines; longitude++) {
+			
+			var first = (latitude * (nrLongitudinalLines + 1)) + longitude;
+			var second = first + nrLongitudinalLines + 1;
+			
+			addressedVertices.push(first);
+			addressedVertices.push(second);
+			addressedVertices.push(first + 1);
+			
+			addressedVertices.push(second);
+			addressedVertices.push(second + 1);
+			addressedVertices.push(first + 1);
+		}
+	}
+	
+	var addressedColor = [];
+	for (var tmp = 0; tmp < addressedVertices.length; tmp++) {
+		addressedColor.push(1);
+	}
+	
+	vposition = new Float32Array(addressedVertices);
+	vcolor = new Float32Array(addressedColor);
+	
+	
+	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vposition.length);
+	
+	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vposition);
+	this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
+}
