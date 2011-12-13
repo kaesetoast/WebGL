@@ -25,7 +25,8 @@ window.onload = function () {
     theScene = new SimpleScene(prog, [0.0 ,0.0, 0.0, 1.0]);
     
     // add an object to the scene
-    theScene.addShape(new TriangleFan(gl));
+    // theScene.addShape(new TriangleFan(gl));
+    theScene.addShape(new Cube(gl, 1));
     
     // set the camera's viewpoint and viewing direction
     theScene.camera.lookAt([0,2,4], [0,0,0], [0,1,0]);

@@ -119,4 +119,56 @@ TriangleFan = function(gl) {
     this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
     
 }        
-    
+
+/*
+ * Class: Cube
+ */
+
+Cube = function(gl, edgeLength) {
+	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, 36);
+	
+	var l = edgeLength / 2;
+	
+	var vposition = new Float32Array([
+		l,l,l,		l,-l,l,		l,l,-l,		//x-pos
+		l,-l,-l,	l,-l,l,		l,l,-l,
+		
+		-l,l,l,		-l,-l,l,	-l,l,-l,	//x-neg
+		-l,-l,-l,	-l,-l,l,	-l,l,-l,
+		
+		l,l,l,		-l,l,l,		l,l,-l,		//y-pos
+		-l,l,-l,	-l,l,l,		l,l,-l,
+		
+		l,-l,l,		-l,-l,l,	l,-l,-l,	//y-neg
+		-l,-l,-l,	-l,-l,l,	l,-l,-l,
+		
+		l,l,l,		l,-l,l,		-l,l,l,		//z-pos
+		-l,-l,l,	l,-l,l,		-l,l,l,
+		
+		l,l,-l,		l,-l,-l,	-l,l,-l,	//z-neg
+		-l,-l,-l,	l,-l,-l,	-l,l,-l
+	]);
+	
+	var vcolor = new Float32Array([
+		1,1,1,		1,1,1,		1,1,1,
+		1,1,1,		1,1,1,		1,1,1,
+		
+		1,1,1,		1,1,1,		1,1,1,
+		1,1,1,		1,1,1,		1,1,1,
+		
+		1,1,1,		1,1,1,		1,1,1,
+		1,1,1,		1,1,1,		1,1,1,
+		
+		1,1,1,		1,1,1,		1,1,1,
+		1,1,1,		1,1,1,		1,1,1,
+		
+		1,1,1,		1,1,1,		1,1,1,
+		1,1,1,		1,1,1,		1,1,1,
+		
+		1,1,1,		1,1,1,		1,1,1,
+		1,1,1,		1,1,1,		1,1,1
+	]);
+	
+	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vposition);
+	this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
+}
