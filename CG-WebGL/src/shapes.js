@@ -179,45 +179,59 @@ Cube = function(gl, edgeLength) {
 
 Sphere = function(gl, radius) {
 	
-	var nrLatitudinalLines = 10; // # Breitengrade
-	var nrLongitudinalLines = 10; // # Längengrade
-	var allVertices = [];
+	var nrLatitudinalLines = 100; // # Breitengrade
+	var nrLongitudinalLines = 100; // # Längengrade
 	
-	for (var latitude = 0; latitude <= nrLatitudinalLines; latitude++) {
+	var intersectionPointsXYZ = [];
+	for (var longitude = 0; longitude <= nrLongitudinalLines; longitude++) {
+		var alpha = (longitude * Math.PI) / nrLongitudinalLines;
+		var sinAlpha = Math.sin(alpha);
+		var cosAlpha = Math.cos(alpha);
 		
-		var angleLatitude = (latitude * Math.PI) / nrLatitudinalLines;
-		var sinAngleLatitude = Math.sin(angleLatitude);
-		var cosAngleLatitude = Math.cos(angleLatitude);
-		
-		for (var longitude = 0; longitude <= nrLongitudinalLines; longitude++) {
+		for (var latitude = 0; latitude < nrLatitudinalLines; latitude++) {
+			var beta = (latitude * 2 * Math.PI) / nrLatitudinalLines;
+			var sinBeta = Math.sin(beta);
+			var cosBeta = Math.cos(beta);
 			
-			var angleLongitude = (longitude * 2 * Math.PI) / nrLongitudinalLines;
-			var sinAngleLongitude = Math.sin(angleLongitude);
-			var cosAngleLongitude = Math.cos(angleLongitude);
-		
-			var x = radius * cosAngleLongitude * sinAngleLatitude;
-			var y = radius * cosAngleLatitude;
-			var z = radius * sinAngleLongitude * sinAngleLatitude;
+			var x = radius * sinBeta * cosAlpha;
+			var y = radius * cosBeta;
+			var z = radius * sinAlpha * sinBeta;
 			
-			allVertices.push([x, y, z]);
+			intersectionPointsXYZ.push(x);
+			intersectionPointsXYZ.push(y);
+			intersectionPointsXYZ.push(z);
+		}
+	}
+	
+	var indices = [];
+	
+	for(var longitude = 0; longitude < nrLongitudinalLines; longitude++) {
+		for(var latitude = 0; latitude < nrLatitudinalLines; latitude++) {
+			
+			var one = (longitude * (nrLatitudinalLines * 3)) + latitude * 3;
+			var two = one + nrLatitudinalLines * 3;
+			var three = one + 3;
+			var four = two + 3;
+			
+			//console.log(one + ", " + two + ", " + three + ", " + four);
+
+			indices.push(one);
+			indices.push(two);
+			indices.push(three);
+			
+			indices.push(two);
+			indices.push(three);
+			indices.push(four);
 		}
 	}
 	
 	var addressedVertices = [];
-	for (var latitude = 0; latitude < nrLatitudinalLines; latitude++) {
-		for (var longitude = 0; longitude < nrLongitudinalLines; longitude++) {
-			
-			var first = (latitude * (nrLongitudinalLines + 1)) + longitude;
-			var second = first + nrLongitudinalLines + 1;
-			
-			addressedVertices.push(first);
-			addressedVertices.push(second);
-			addressedVertices.push(first + 1);
-			
-			addressedVertices.push(second);
-			addressedVertices.push(second + 1);
-			addressedVertices.push(first + 1);
-		}
+	for (var i = 0; i < indices.length; i++) {
+		var index = indices[i];
+		
+		addressedVertices.push(intersectionPointsXYZ[index]);
+		addressedVertices.push(intersectionPointsXYZ[index + 1]);
+		addressedVertices.push(intersectionPointsXYZ[index + 2]);
 	}
 	
 	var addressedColor = [];
@@ -228,8 +242,9 @@ Sphere = function(gl, radius) {
 	vposition = new Float32Array(addressedVertices);
 	vcolor = new Float32Array(addressedColor);
 	
+	console.log(vposition.length + " fick dich " + addressedVertices.length);
 	
-	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vposition.length);
+	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vposition.length / 3);
 	
 	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vposition);
 	this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
