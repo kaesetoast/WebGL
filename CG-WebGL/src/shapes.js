@@ -224,11 +224,15 @@ Sphere = function(gl, radius) {
 			indicesVertex.push(three);
 			indicesVertex.push(four);
 			
-			var _color = [	1,1,0,	1,1,0,	1,1,0,
-							0,0,1,	0,0,1,	0,0,1];
+			var color1 = [ 1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0 ];
+			var color2 = [ 0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1 ];
 			
 			for (var i = 0; i < 18; i++) {
-				colorPerVertex.push(_color[i]);
+				if ((latitude + longitude) % 2 == 0) {
+					colorPerVertex.push(color1[i]);
+				} else {
+					colorPerVertex.push(color2[i]);
+				}
 			}
 		}
 	}
