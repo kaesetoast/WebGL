@@ -179,8 +179,8 @@ Cube = function(gl, edgeLength) {
 
 Sphere = function(gl, radius) {
 	
-	var nrLatitudinalLines = 100; // # Breitengrade
-	var nrLongitudinalLines = 100; // # Längengrade
+	var nrLongitudinalLines = 10; // # Längengrade
+	var nrLatitudinalLines = nrLongitudinalLines * 2; // # Breitengrade
 	
 	var intersectionPointsXYZ = [];
 	for (var longitude = 0; longitude <= nrLongitudinalLines; longitude++) {
@@ -203,7 +203,8 @@ Sphere = function(gl, radius) {
 		}
 	}
 	
-	var indices = [];
+	var indicesVertex = [];
+	var colorPerVertex = [];
 	
 	for(var longitude = 0; longitude < nrLongitudinalLines; longitude++) {
 		for(var latitude = 0; latitude < nrLatitudinalLines; latitude++) {
@@ -215,37 +216,37 @@ Sphere = function(gl, radius) {
 			
 			//console.log(one + ", " + two + ", " + three + ", " + four);
 
-			indices.push(one);
-			indices.push(two);
-			indices.push(three);
+			indicesVertex.push(one);
+			indicesVertex.push(two);
+			indicesVertex.push(three);
 			
-			indices.push(two);
-			indices.push(three);
-			indices.push(four);
+			indicesVertex.push(two);
+			indicesVertex.push(three);
+			indicesVertex.push(four);
+			
+			var _color = [	1,1,0,	1,1,0,	1,1,0,
+							0,0,1,	0,0,1,	0,0,1];
+			
+			for (var i = 0; i < 18; i++) {
+				colorPerVertex.push(_color[i]);
+			}
 		}
 	}
 	
-	var addressedVertices = [];
-	for (var i = 0; i < indices.length; i++) {
-		var index = indices[i];
+	var addressedVerticesXYZ = [];
+	for (var i = 0; i < indicesVertex.length; i++) {
+		var index = indicesVertex[i];
 		
-		addressedVertices.push(intersectionPointsXYZ[index]);
-		addressedVertices.push(intersectionPointsXYZ[index + 1]);
-		addressedVertices.push(intersectionPointsXYZ[index + 2]);
+		addressedVerticesXYZ.push(intersectionPointsXYZ[index]);
+		addressedVerticesXYZ.push(intersectionPointsXYZ[index + 1]);
+		addressedVerticesXYZ.push(intersectionPointsXYZ[index + 2]);
 	}
 	
-	var addressedColor = [];
-	for (var tmp = 0; tmp < addressedVertices.length; tmp++) {
-		addressedColor.push(1);
-	}
+	vpositionXYZ = new Float32Array(addressedVerticesXYZ);
+	vcolor = new Float32Array(colorPerVertex);
 	
-	vposition = new Float32Array(addressedVertices);
-	vcolor = new Float32Array(addressedColor);
+	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vpositionXYZ.length / 3);
 	
-	console.log(vposition.length + " fick dich " + addressedVertices.length);
-	
-	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vposition.length / 3);
-	
-	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vposition);
+	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vpositionXYZ);
 	this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
 }
