@@ -177,7 +177,7 @@ Cube = function(gl, edgeLength) {
  * Class: Sphere
  */
 
-Sphere = function(gl, radius) {
+Sphere = function(gl, radius, color1, color2) {
 	
 	var nrLongitudinalLines = 10; // # Längengrade
 	var nrLatitudinalLines = nrLongitudinalLines * 2; // # Breitengrade
@@ -223,9 +223,6 @@ Sphere = function(gl, radius) {
 			indicesVertex.push(two);
 			indicesVertex.push(three);
 			indicesVertex.push(four);
-			
-			var color1 = [ 1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0 ];
-			var color2 = [ 0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1 ];
 			
 			for (var i = 0; i < 18; i++) {
 				if ((latitude + longitude) % 2 == 0) {

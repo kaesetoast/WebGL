@@ -19,6 +19,10 @@ window.onload = function() {
 	var vs = getShaderSource("vert_shader");
 	var fs = getShaderSource("frag_shader");
 	var prog = new Program(gl, vs, fs);
+	
+	// Set alternating colors for shapes
+	var color1 = [ 1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0 ];
+	var color2 = [ 0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1 ];
 
 	// theScene is a global variable; it is accessed by the event handlers
 	theScene = new SimpleScene(prog, [0.0, 0.0, 0.0, 1.0]);
@@ -26,7 +30,7 @@ window.onload = function() {
 	// add an object to the scene
 	// theScene.addShape(new TriangleFan(gl));
 	// theScene.addShape(new Cube(gl, 1));
-	theScene.addShape(new Sphere(gl, 1));
+	theScene.addShape(new Sphere(gl, 1, color1, color2));
 
 	// set the camera's viewpoint and viewing direction
 	theScene.camera.lookAt([0, 2, 4], [0, 0, 0], [0, 1, 0]);
