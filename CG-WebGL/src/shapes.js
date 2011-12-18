@@ -32,6 +32,18 @@ VertexBasedShape = function(gl, primitiveType, numVertices) {
     // remember how many vertices this shape has
     this.numVertices = numVertices;
     
+    this.transformationMatrix = mat4.identity();
+    
+    this.setUniforms = function(program) {
+    	var shaderTransform = gl.getUniformLocation(program.glProgram, "nodeTransform");
+    	
+    	if (shaderTransform == null) {
+    		console.log("Warning: uniform transformationMatrix not used in shader.");
+    	} else {
+    		gl.uniformMatrix4fv(shaderTransform, false, this.transformationMatrix);
+    	}
+    }
+    
     // add a vertex attribute to the shape
     this.addVertexAttribute = function(gl, attrType, dataType, 
                                         numElements,dataArray) {

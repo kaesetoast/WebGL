@@ -88,6 +88,7 @@ SimpleScene = function(program, backgroundColor) {
 
         // go through all shapes and let them draw themselves
         for(var i=0; i<this.shapes.length; i++) {
+        	this.shapes[i].shape.setUniforms(this.program);
             this.shapes[i].shape.draw(this.program);
         }
         
