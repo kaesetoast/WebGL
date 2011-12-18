@@ -150,23 +150,23 @@ Cube = function(gl, edgeLength) {
 	]);
 	
 	var vcolor = new Float32Array([
-		1,1,1,		1,1,1,		1,1,1,
-		1,1,1,		1,1,1,		1,1,1,
+		1,0,0,		0,1,0,		0,0,1,
+		1,0,0,		0,1,0,		0,0,1,
 		
-		1,1,1,		1,1,1,		1,1,1,
-		1,1,1,		1,1,1,		1,1,1,
+		0,0,1,		1,0,0,		0,1,0,
+		0,0,1,		1,0,0,		0,1,0,
 		
-		1,1,1,		1,1,1,		1,1,1,
-		1,1,1,		1,1,1,		1,1,1,
+		1,0,0,		0,0,1,		0,0,1,
+		0,1,0,		0,0,1,		0,0,1,
 		
-		1,1,1,		1,1,1,		1,1,1,
-		1,1,1,		1,1,1,		1,1,1,
+		0,1,0,		1,0,0,		1,0,0,
+		0,0,1,		1,0,0,		1,0,0,
 		
-		1,1,1,		1,1,1,		1,1,1,
-		1,1,1,		1,1,1,		1,1,1,
+		1,0,0,		0,1,0,		0,0,1,
+		1,0,0,		0,1,0,		0,0,1,
 		
-		1,1,1,		1,1,1,		1,1,1,
-		1,1,1,		1,1,1,		1,1,1
+		0,0,1,		1,0,0,		0,1,0,
+		0,0,1,		1,0,0,		0,1,0
 	]);
 	
 	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vposition);
@@ -214,8 +214,6 @@ Sphere = function(gl, radius, color1, color2) {
 			var three = one + 3;
 			var four = two + 3;
 			
-			//console.log(one + ", " + two + ", " + three + ", " + four);
-
 			indicesVertex.push(one);
 			indicesVertex.push(two);
 			indicesVertex.push(three);
