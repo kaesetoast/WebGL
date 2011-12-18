@@ -21,7 +21,7 @@
 */ 
 
 
-VertexBasedShape = function(gl, primitiveType, numVertices) {
+VertexBasedShape = function(gl, primitiveType, numVertices, transformationMatrix) {
 
     // arrays in which to store vertex buffers and the respective 
     this.vertexBuffers = new Array();
@@ -32,7 +32,7 @@ VertexBasedShape = function(gl, primitiveType, numVertices) {
     // remember how many vertices this shape has
     this.numVertices = numVertices;
     
-    this.transformationMatrix = mat4.identity();
+    this.transformationMatrix = transformationMatrix;
     
     this.setUniforms = function(program) {
     	var shaderTransform = gl.getUniformLocation(program.glProgram, "nodeTransform");
@@ -90,10 +90,10 @@ VertexBasedShape = function(gl, primitiveType, numVertices) {
    
 */ 
 
-Triangle = function(gl) {
+Triangle = function(gl, transformationMatrix) {
 
     // instantiate the shape as a member variable
-    this.shape = new VertexBasedShape(gl, gl.TRIANGLES, 3);
+    this.shape = new VertexBasedShape(gl, gl.TRIANGLES, 3, transformationMatrix);
 
     var vposition = new Float32Array( [ 0,1,0,  -1,-1,0, 1,-1,0 ]);
     var vcolor    = new Float32Array( [ 1,0,0,  0,1,0,   0,0,1 ]);
@@ -116,10 +116,10 @@ Triangle = function(gl) {
    
 */ 
 
-TriangleFan = function(gl) {
+TriangleFan = function(gl, transformationMatrix) {
 
     // instantiate the shape as a member variable
-    this.shape = new VertexBasedShape(gl, gl.TRIANGLE_FAN, 9);
+    this.shape = new VertexBasedShape(gl, gl.TRIANGLE_FAN, 9, transformationMatrix);
 
     var vposition = new Float32Array( [ 0,0,1,        0,1,0,       -0.7,0.7,0, 
                                         -1,0,0,      -0.7,-0.7,0,  0,-1,0, 
@@ -136,8 +136,8 @@ TriangleFan = function(gl) {
  * Class: Cube
  */
 
-Cube = function(gl, edgeLength) {
-	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, 36);
+Cube = function(gl, edgeLength, transformationMatrix) {
+	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, 36, transformationMatrix);
 	
 	var l = edgeLength / 2;
 	
@@ -189,7 +189,7 @@ Cube = function(gl, edgeLength) {
  * Class: Sphere
  */
 
-Sphere = function(gl, radius, color1, color2) {
+Sphere = function(gl, radius, color1, color2, transformationMatrix) {
 	
 	var nrLongitudinalLines = 10; // # Längengrade
 	var nrLatitudinalLines = nrLongitudinalLines * 2; // # Breitengrade
@@ -256,7 +256,7 @@ Sphere = function(gl, radius, color1, color2) {
 	vpositionXYZ = new Float32Array(addressedVerticesXYZ);
 	vcolor = new Float32Array(colorPerVertex);
 	
-	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vpositionXYZ.length / 3);
+	this.shape = new VertexBasedShape(gl, gl.TRIANGLES, vpositionXYZ.length / 3, transformationMatrix);
 	
 	this.shape.addVertexAttribute(gl, "vertexPosition", gl.FLOAT, 3, vpositionXYZ);
 	this.shape.addVertexAttribute(gl, "vertexColor",    gl.FLOAT, 3, vcolor);
