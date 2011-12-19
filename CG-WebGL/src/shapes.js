@@ -236,9 +236,9 @@ Sphere = function(gl, radius, color1, color2, transformationMatrix) {
 			
 			for (var i = 0; i < 18; i++) {
 				if ((latitude + longitude) % 2 == 0) {
-					colorPerVertex.push(color1[i]);
+					colorPerVertex.push(color1[i%3]);
 				} else {
-					colorPerVertex.push(color2[i]);
+					colorPerVertex.push(color2[i%3]);
 				}
 			}
 		}

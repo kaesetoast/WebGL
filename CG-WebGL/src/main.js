@@ -21,8 +21,8 @@ window.onload = function() {
 	var prog = new Program(gl, vs, fs);
 	
 	// Set alternating colors for shapes
-	var color1 = [ 1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0,	1,1,0 ];
-	var color2 = [ 0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1,	0,0,1 ];
+	var color1 = [ 1,1,0 ];
+	var color2 = [ 0,0,1 ];
 
 	// theScene is a global variable; it is accessed by the event handlers
 	theScene = new SimpleScene(prog, [0.0, 0.0, 0.0, 1.0]);
