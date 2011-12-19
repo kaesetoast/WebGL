@@ -191,7 +191,7 @@ Cube = function(gl, edgeLength, transformationMatrix) {
 
 Sphere = function(gl, radius, color1, color2, transformationMatrix) {
 	
-	var nrLongitudinalLines = 10; // # Längengrade
+	var nrLongitudinalLines = 11; // # Längengrade
 	var nrLatitudinalLines = nrLongitudinalLines * 2; // # Breitengrade
 	
 	var intersectionPointsXYZ = [];
