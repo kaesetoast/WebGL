@@ -20,10 +20,6 @@ window.onload = function() {
 	var fs = getShaderSource("frag_shader");
 	var prog = new Program(gl, vs, fs);
 	
-	// Set alternating colors for shapes
-	var color1 = [ 1,1,0 ];
-	var color2 = [ 0,0,1 ];
-
 	// theScene is a global variable; it is accessed by the event handlers
 	theScene = new SimpleScene(prog, [0.0, 0.0, 0.0, 1.0]);
 
@@ -35,6 +31,9 @@ window.onload = function() {
 	mat4.translate(matrixCube, vec3.create([0, 2, 0]));
 	
 	theScene.addShape(new Cube(gl, 1, matrixCube));
+	// Set alternating colors for sphere
+	var color1 = [ 1,1,0 ];
+	var color2 = [ 0,0,1 ];
 	theScene.addShape(new Sphere(gl, 1, color1, color2, mat4.identity()));
 
 	// set the camera's viewpoint and viewing direction
